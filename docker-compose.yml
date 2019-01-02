@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  web-app:
+    image: c8bit/gunicorn:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.gunicorn
+      args:
+        app_dir: ${CONTAINER_APP_DIR}
+        conf_dir: ${CONTAINER_CONF_DIR}
+    restart: always
+    volumes:
+      - ${DEV_SERVER_CONF_DIR}:${CONTAINER_CONF_DIR}
+      - ${DEV_SERVER_DATA_DIR}:${CONTAINER_DATA_DIR}
+  
+  proxy-server:
+    image: c8bit/nginx:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    restart: always
+    ports:
+      - 80:80
+

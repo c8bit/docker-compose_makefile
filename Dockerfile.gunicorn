@@ -2,13 +2,11 @@ FROM alpine:latest
 LABEL maintainer="c8bit"
 
 ARG app_dir
-ARG settings_dir=/etc/c8bit
+ARG secret_dir
 
 ENV FLASK_DEBUG 0
-ENV FLASK_APP c8bit
+ENV FLASK_APP my_app
 ENV FLASK_ENV production
-
-ENV PYTHON_ENV_LOCATION ${app_dir}/env
 
 ENV PYTHONPATH=${app_dir}
 
@@ -21,7 +19,7 @@ RUN apk --update upgrade && \
 
 # Set up project and config directory
 RUN mkdir -p ${app_dir} && \
-    mkdir -p ${settings_dir}
+    mkdir -p ${secret_dir}
 
 # Install packages
 COPY ./requirements.txt ${app_dir}
@@ -29,9 +27,9 @@ RUN pip3 install --upgrade pip && \
     pip3 install -r ${app_dir}/requirements.txt
 
 # Install the application package
-COPY ./c8bit ${app_dir}/c8bit
+COPY ./my_app ${app_dir}
 
 WORKDIR ${app_dir}
 
-ENTRYPOINT $PYTHON_ENV_LOCATION/bin/gunicorn -w 4 -b 0.0.0.0:80 c8bit:app
+ENTRYPOINT gunicorn -w 4 -b 0.0.0.0:80 wsgi
 

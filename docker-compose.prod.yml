@@ -3,7 +3,5 @@ version: '3'
 services:
   web-app:
     volumes:
-      - /root/secret:/etc/c8bit
-  proxy-server:
-    ports:
-      - 80:80
+      - ${PROD_SERVER_SECRET_DIR}:${CONTAINER_SECRET_DIR}
+

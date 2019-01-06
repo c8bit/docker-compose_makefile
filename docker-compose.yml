@@ -1,21 +1,20 @@
 version: '3'
 
 services:
-  web-app:
-    image: c8bit/gunicorn:latest
+  my_app:
+    image: my_gunicorn:latest
     build:
       context: .
       dockerfile: Dockerfile.gunicorn
       args:
         app_dir: ${CONTAINER_APP_DIR}
-        conf_dir: ${CONTAINER_CONF_DIR}
+        secret_dir: ${CONTAINER_SECRET_DIR}
     restart: always
     volumes:
-      - ${DEV_SERVER_CONF_DIR}:${CONTAINER_CONF_DIR}
-      - ${DEV_SERVER_DATA_DIR}:${CONTAINER_DATA_DIR}
+      - ${DEV_SERVER_SECRET_DIR}:${CONTAINER_SECRET_DIR}
   
-  proxy-server:
-    image: c8bit/nginx:latest
+  my_nginx:
+    image: my_nginx:latest
     build:
       context: .
       dockerfile: Dockerfile.nginx

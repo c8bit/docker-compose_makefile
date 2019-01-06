@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  web-app:
+  my_app:
     volumes:
       - ${PROD_SERVER_SECRET_DIR}:${CONTAINER_SECRET_DIR}
 

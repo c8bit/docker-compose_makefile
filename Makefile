@@ -1,4 +1,4 @@
-product_name = my_nginx
+container_name = my_nginx
 
 .PHONY: build-dev build-prod save-server load-server dev prod down
 build-dev:
@@ -7,11 +7,11 @@ build-dev:
 build-prod:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
 
-save-server:
-	docker save $(product_name):latest > $(product_name).tar
+save:
+	docker save $(container_name):latest > $(container_name).tar
 
-load-server:
-	docker load --input $(product_name).tar
+load:
+	docker load --input $(container_name).tar
 
 dev:
 	docker-compose up
